@@ -168,6 +168,14 @@ def get_actions(id=None):
 
 def get_datas(id=None):
     datas = Data.query.filter_by(id = id).all() if id is not None else Data.query.all()
-    output = [data.to_dict() for data in datas]
+    
+    output = []
+    for data in datas:
+        data = data.to_dict()
+        for param in data['params']:
+            try: param['values'] = param['values'].split(',')
+            except: pass
+    
+        output.append(data)
 
     return output

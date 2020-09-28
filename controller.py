@@ -143,3 +143,5 @@ def not_found(error=None):
 if __name__ == "__main__":
     if os.environ['FLASK_ENV'] == "development":
         app.run()
+    else:
+        app.run()
