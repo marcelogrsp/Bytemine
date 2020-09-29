@@ -180,17 +180,47 @@ def get_datas(id=None):
 
     return output
 
-def search():
-    sql = """
-        SELECT  DISTINCT name FROM indicator
-        UNION
-        SELECT DISTINCT name FROM action
-        UNION
-        SELECT DISTINCT name FROM data
-        UNION
-        SELECT DISTINCT name FROM logic
-    """
+def search(keyword):
+    indicators = Indicator.query.filter(Indicator.name.like(f"%{keyword}%")).all()
+    datas = Data.query.filter(Data.name.like(f"%{keyword}%")).all()
+    actions = Action.query.filter(Action.name.like(f"%{keyword}%")).all()
+    logics = Logic.query.filter(Logic.name.like(f"%{keyword}%")).all()
+    
+    output = []
 
-    output = db.engine.execute(sql).cursor._rows
+    for indicator in indicators:
+        indicator = indicator.to_dict()
+        del indicator['sources']
+        del indicator['valid']
+        del indicator['params']
+        del indicator['outputs']
+        del indicator['unique_key']
+        indicator['block'] = "Indicator Block"
+
+        output.append(indicator)
+
+    for data in datas:
+        data = data.to_dict()
+        del data['params']
+        del data['outputs']
+        data['block'] = "Data Block"
+
+        output.append(data)
+
+    for logic in logics:
+        logic = logic.to_dict()
+        del logic['inputs']
+        del logic['outputs']
+        logic['block'] = "Logic Block"
+
+        output.append(logic)
+
+    for action in actions:
+        action = action.to_dict()
+        del action['inputs']
+        del action['params']
+        action['block'] = "Action Block"
+
+        output.append(action)
 
     return output
