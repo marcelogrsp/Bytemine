@@ -154,5 +154,3 @@ def get_indicators(short_name):
         output.append(indicator)
     
     return output
-
-print(get_indicators_metadata('sma'))
