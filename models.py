@@ -51,7 +51,7 @@ class IndicatorSources(db.Model, SerializerMixin):
     box_type = db.Column(db.String(255))
     min_value = db.Column(db.Float)
     max_value = db.Column(db.Float)
-    values = db.Column(db.String(255)) # Try to change it to list, enum or pickleable
+    values = db.Column(db.String(255))
 
 
 class IndicatorParams(db.Model, SerializerMixin):

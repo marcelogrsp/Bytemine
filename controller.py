@@ -7,34 +7,35 @@ import services
 import hashlib
 
 
-@app.route('/api/indicators', methods=['GET'])
+@app.route('/api/indicators', methods=['GET', 'POST'])
 @jwt_required()
 def indicators():
-    short_name = request.args.get('short_name',None)
+    if request.method == 'GET':
+        short_name = request.args.get('short_name',None)
+        output = services.get_indicators(short_name)
 
-    output = services.get_indicators(short_name)
+        return jsonify(output), 200
+    elif request.method == 'POST':
+        indicators = request.get_json()
+        created = []
+        for indicator in indicators:
+            indicator_model = services.create_indicator(indicator['short_name'])
+
+        return jsonify(indicator_model), 201
+
+@app.route('/api/indicators/metadata/<unique_key>/', methods=['GET'])
+@jwt_required()
+def indicators_metadata_unique_key(unique_key):
+    output = services.get_indicators_metadata(unique_key)
 
     return jsonify(output), 200
 
-
-@app.route('/api/indicators/metadata', methods=['GET'])
+@app.route('/api/indicators/metadata/', methods=['GET'])
 @jwt_required()
 def indicators_metadata():
-    short_name = request.args.get('short_name',None)
-
-    output = services.get_indicators_metadata(short_name)
+    output = services.get_indicators_metadata()
 
     return jsonify(output), 200
-
-
-@app.route('/api/indicators/', methods=['POST'])
-def create_indicators():
-    indicators = request.get_json()
-    created = []
-    for indicator in indicators:
-        indicator_model = services.create_indicator(indicator['short_name'])
-
-    return jsonify(indicator_model), 201
 
 @app.route('/api/indicators/validate', methods=['POST'])
 @jwt_required()
@@ -87,4 +88,5 @@ def not_found(error=None):
 
     return res
 
-app.run()
+if __name__ == "__main__":
+    app.run()

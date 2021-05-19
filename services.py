@@ -124,8 +124,8 @@ def create_indicator(short_name):
 
     return indicator.to_dict()
 
-def get_indicators_metadata(short_name):
-    indicators = Indicator.query.filter_by(short_name = short_name).all() if short_name is not None else Indicator.query.all()
+def get_indicators_metadata(unique_key=None):
+    indicators = Indicator.query.filter_by(unique_key = unique_key).all() if unique_key is not None else Indicator.query.all()
     
     output = []
     for indicator in indicators:
@@ -136,7 +136,6 @@ def get_indicators_metadata(short_name):
     
         indicator['inputs'] = {'name': 'input'}
         output.append(indicator)
-    
 
     return output
 
