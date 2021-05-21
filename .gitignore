@@ -130,3 +130,5 @@ dmypy.json
 
 /schema_specs.md
 
+#VS Code
+.vscode

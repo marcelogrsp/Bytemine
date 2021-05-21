@@ -5,13 +5,27 @@ from config import conn_string
 from app import app, db
 import services
 import hashlib
+import os
 
+#region Sprint 1
+
+@app.route("/api/authenticate", methods=["POST"])
+def login():
+    username = request.json["username"]
+    password_hash = hashlib.pbkdf2_hmac('sha256', request.json["password"].encode('utf-8'), b'bytemine', 100000).hex()
+    password_hash_verify = hashlib.pbkdf2_hmac('sha256', "bytemine".encode('utf-8'), b'bytemine', 100000).hex()
+
+    if password_hash == password_hash_verify:
+        access_token = create_access_token(identity=username)
+        return jsonify(message="Authenticated", access_token=access_token), 200
+    else:
+        return jsonify(message="Incorrect Credentials"), 403
 
 @app.route('/api/indicators', methods=['GET', 'POST'])
 @jwt_required()
 def indicators():
     if request.method == 'GET':
-        short_name = request.args.get('short_name',None)
+        short_name = request.args.get('short_name', None)
         output = services.get_indicators(short_name)
 
         return jsonify(output), 200
@@ -37,7 +51,7 @@ def indicators_metadata():
 
     return jsonify(output), 200
 
-@app.route('/api/indicators/validate', methods=['POST'])
+@app.route('/api/indicators/validate/', methods=['POST'])
 @jwt_required()
 def validate_indicators():
     validation_test = services.validate_indicator(request.get_json())
@@ -65,17 +79,44 @@ def metadata():
 
     return res
 
-@app.route("/api/authenticate", methods=["POST"])
-def login():
-    username = request.json["username"]
-    password_hash = hashlib.pbkdf2_hmac('sha256', request.json["password"].encode('utf-8'), b'bytemine', 100000).hex()
-    password_hash_verify = hashlib.pbkdf2_hmac('sha256', "bytemine".encode('utf-8'), b'bytemine', 100000).hex()
+#endregion Sprint 1
 
-    if password_hash == password_hash_verify:
-        access_token = create_access_token(identity=username)
-        return jsonify(message="Authenticated", access_token=access_token), 200
-    else:
-        return jsonify(message="Incorrect Credentials"), 403
+
+#region Sprint 2
+
+@app.route('/api/logics/', methods=['GET'])
+@jwt_required()
+def logics():
+    output = services.get_logics()
+
+    return jsonify(output), 200
+
+@app.route('/api/logics/<id>/', methods=['GET'])
+@jwt_required()
+def logics_id(id):
+    output = services.get_logics(id)
+
+    return jsonify(output), 200
+
+@app.route('/api/actions/', methods=['GET'])
+@jwt_required()
+def actions():
+    output = services.get_actions()
+
+    return jsonify(output), 200
+
+@app.route('/api/actions/<id>/', methods=['GET'])
+@jwt_required()
+def actions_id(id):
+    output = services.get_actions(id)
+
+    return jsonify(output), 200
+
+
+
+#endregion Sprint 2
+
+
 
 @app.errorhandler(404)
 def not_found(error=None):
@@ -89,4 +130,5 @@ def not_found(error=None):
     return res
 
 if __name__ == "__main__":
-    app.run()
+    if os.environ['FLASK_ENV'] == "development":
+        app.run()

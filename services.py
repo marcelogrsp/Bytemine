@@ -1,13 +1,13 @@
+from os import O_TRUNC
 from config import DB
 from sqlalchemy import exc
-from models import Indicator, IndicatorSources, IndicatorParams, IndicatorOutputs
+from models import Indicator, IndicatorSources, IndicatorParams, IndicatorOutputs, Logic, Action
 
 from flask.json import jsonify
 from sqlalchemy.exc import IntegrityError
 from app import db
 
 from datetime import datetime
-import pandas as pd
 import numpy as np
 import tulipy as ti
 import hashlib
@@ -71,7 +71,7 @@ def create_indicator(short_name):
         unique_key=hashlib.md5(indicator_func.full_name.encode()).hexdigest(),
         short_name=short_name,
         valid=True,
-        created_at=datetime.utcnow(), 
+        created_at=datetime.utcnow(),
         last_updated_at=datetime.utcnow()
     )
     
@@ -152,4 +152,16 @@ def get_indicators(short_name):
 
         output.append(indicator)
     
+    return output
+
+def get_logics(id=None):
+    logics = Logic.query.filter_by(id = id).all() if id is not None else Logic.query.all()
+    output = [logic.to_dict() for logic in logics]
+
+    return output
+
+def get_actions(id=None):
+    actions = Action.query.filter_by(id = id).all() if id is not None else Action.query.all()
+    output = [action.to_dict() for action in actions]
+
     return output
