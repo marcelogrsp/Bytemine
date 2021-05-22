@@ -112,11 +112,22 @@ def actions_id(id):
 
     return jsonify(output), 200
 
+@app.route('/api/datas/', methods=['GET'])
+@jwt_required()
+def datas():
+    output = services.get_datas()
+
+    return jsonify(output), 200
+
+@app.route('/api/datas/<id>/', methods=['GET'])
+@jwt_required()
+def datas_id(id):
+    output = services.get_datas(id)
+
+    return jsonify(output), 200
 
 
 #endregion Sprint 2
-
-
 
 @app.errorhandler(404)
 def not_found(error=None):

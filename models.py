@@ -105,8 +105,6 @@ class LogicOutputs(db.Model, SerializerMixin):
     logic_id = db.Column(db.Integer, db.ForeignKey('logic.id'))
     name = db.Column(db.String(255))
 
-
-
 class Action(db.Model, SerializerMixin):
     __tablename__ = 'action'
     id = db.Column(db.Integer, primary_key=True)
@@ -138,6 +136,43 @@ class ActionParams(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     action_id = db.Column(db.Integer, db.ForeignKey('action.id'))
+    name = db.Column(db.String(255))
+    type = db.Column(db.String(255))
+    box_type = db.Column(db.String(255))
+    min_value = db.Column(db.Float)
+    max_value = db.Column(db.Float)
+
+class Data(db.Model, SerializerMixin):
+    __tablename__ = 'data'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+
+    outputs = db.relationship('DataOutputs', backref='data')
+    params = db.relationship('DataParams', backref='data')
+    
+    serialize_only = (
+        'name', 
+        'outputs.name',
+        'params.name'
+    )
+    
+    serialize_rules = (
+        '-outputs.data.outputs',
+        '-params.data.params',
+    )
+
+class DataOutputs(db.Model, SerializerMixin):
+    __tablename__ = 'data_outputs'
+
+    id = db.Column(db.Integer, primary_key=True)
+    data_id = db.Column(db.Integer, db.ForeignKey('data.id'))
+    name = db.Column(db.String(255))
+
+class DataParams(db.Model, SerializerMixin):
+    __tablename__ = 'data_params'
+
+    id = db.Column(db.Integer, primary_key=True)
+    data_id = db.Column(db.Integer, db.ForeignKey('data.id'))
     name = db.Column(db.String(255))
     type = db.Column(db.String(255))
     box_type = db.Column(db.String(255))
