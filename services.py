@@ -1,7 +1,7 @@
 from os import O_TRUNC
 from config import DB
 from sqlalchemy import exc
-from models import Indicator, IndicatorSources, IndicatorParams, IndicatorOutputs, Logic, Action
+from models import Indicator, IndicatorSources, IndicatorParams, IndicatorOutputs, Logic, Action, Data
 
 from flask.json import jsonify
 from sqlalchemy.exc import IntegrityError
@@ -163,5 +163,11 @@ def get_logics(id=None):
 def get_actions(id=None):
     actions = Action.query.filter_by(id = id).all() if id is not None else Action.query.all()
     output = [action.to_dict() for action in actions]
+
+    return output
+
+def get_datas(id=None):
+    datas = Data.query.filter_by(id = id).all() if id is not None else Data.query.all()
+    output = [data.to_dict() for data in datas]
 
     return output
