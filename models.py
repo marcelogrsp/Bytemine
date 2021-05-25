@@ -116,7 +116,11 @@ class Action(db.Model, SerializerMixin):
     serialize_only = (
         'name', 
         'inputs.name',
-        'params.name'
+        'params.name',
+        'params.type',
+        'params.box_type',
+        'params.min_value',
+        'params.max_value'
     )
     
     serialize_rules = (
