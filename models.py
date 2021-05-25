@@ -157,7 +157,12 @@ class Data(db.Model, SerializerMixin):
     serialize_only = (
         'name', 
         'outputs.name',
-        'params.name'
+        'params.name',
+        'params.type',
+        'params.box_type',
+        'params.min_value',
+        'params.max_value',
+        'params.values'
     )
     
     serialize_rules = (
@@ -182,3 +187,4 @@ class DataParams(db.Model, SerializerMixin):
     box_type = db.Column(db.String(255))
     min_value = db.Column(db.Float)
     max_value = db.Column(db.Float)
+    values = db.Column(db.String(255))
