@@ -126,10 +126,10 @@ def datas_id(id):
 
     return jsonify(output), 200
 
-@app.route('/api/search', methods=['GET'])
-@jwt_required()
-def search():
-    output = services.search()
+@app.route('/api/search/<keyword>', methods=['GET'])
+# @jwt_required()
+def search(keyword):
+    output = services.search(keyword)
 
     return jsonify(values = output), 200
 
