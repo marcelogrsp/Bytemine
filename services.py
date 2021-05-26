@@ -179,3 +179,18 @@ def get_datas(id=None):
         output.append(data)
 
     return output
+
+def search():
+    sql = """
+        SELECT  DISTINCT name FROM indicator
+        UNION
+        SELECT DISTINCT name FROM action
+        UNION
+        SELECT DISTINCT name FROM data
+        UNION
+        SELECT DISTINCT name FROM logic
+    """
+
+    output = db.engine.execute(sql).cursor._rows
+
+    return output
