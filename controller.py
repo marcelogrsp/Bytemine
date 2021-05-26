@@ -126,6 +126,12 @@ def datas_id(id):
 
     return jsonify(output), 200
 
+@app.route('/api/search', methods=['GET'])
+@jwt_required()
+def search():
+    output = services.search()
+
+    return jsonify(values = output), 200
 
 #endregion Sprint 2
 

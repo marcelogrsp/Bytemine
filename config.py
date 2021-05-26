@@ -3,11 +3,11 @@ import os
 
 # MySQL
 if os.environ['FLASK_ENV'] == "development":
-    USERNAME = "marcelo"
-    PASSWORD = "rRNuTiO9K0jxY6vIk858"
+    USERNAME = "bytemine"
+    PASSWORD = "Cj3Qnp64eiRGfZcKNCMtchFn4HDCNuuTtsmpAgsmnPfz4sue"
     HOST = "localhost"
     PORT = "3306"
-    DB = "BYTEMINE"
+    DB = "bytemine"
 else:
     USERNAME = "marcelo"
     PASSWORD = "rRNuTiO9K0jxY6vIk858"

@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from config import conn_string
 
 app = Flask(__name__)
+CORS(app)
+
 app.config["JWT_SECRET_KEY"] = "fe7e8955db51c0ff78550419434128cb"
 app.config["JWT_ACCESS_TOKEN_EXPIRES "] = 28800
 app.config['SQLALCHEMY_DATABASE_URI'] = conn_string
@@ -13,5 +15,3 @@ app.config['JSON_SORT_KEYS'] = False
 
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
-
-CORS(app)
