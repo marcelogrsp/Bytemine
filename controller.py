@@ -2,6 +2,7 @@ from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identi
 from flask import Flask, request, jsonify
 from models import Indicator
 from config import conn_string
+from datetime import timedelta
 from app import app, db
 import services
 import hashlib
@@ -16,7 +17,7 @@ def login():
     password_hash_verify = hashlib.pbkdf2_hmac('sha256', "bytemine".encode('utf-8'), b'bytemine', 100000).hex()
 
     if password_hash == password_hash_verify:
-        access_token = create_access_token(identity=username)
+        access_token = create_access_token(identity=username, expires_delta=timedelta(days=1))
         return jsonify(message="Authenticated", access_token=access_token), 200
     else:
         return jsonify(message="Incorrect Credentials"), 403
