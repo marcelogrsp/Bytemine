@@ -195,6 +195,7 @@ def search(keyword):
         del indicator['params']
         del indicator['outputs']
         del indicator['unique_key']
+        indicator['short_name'] = indicator['short_name'].upper()
         indicator['block'] = "Indicator Block"
 
         output.append(indicator)
