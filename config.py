@@ -16,6 +16,5 @@ else:
     DB = "BYTEMINE"
 
 conn_string = f"mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DB}?charset=utf8mb4"
-# conn_string = "sqlite:////tmp/test.db"
 
-mySqlConnection = create_engine(conn_string)
+mySqlConnection = create_engine(conn_string, pool_recycle=3600, pool_size=20, pool_timeout=300)
