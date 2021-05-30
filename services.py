@@ -8,7 +8,6 @@ from sqlalchemy.exc import IntegrityError
 from app import db
 
 from datetime import datetime
-import numpy as np
 import tulipy as ti
 import hashlib
 import json
