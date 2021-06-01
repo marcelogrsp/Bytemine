@@ -1,0 +1,19 @@
+ * Serving Flask app 'app' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+127.0.0.1 - - [01/Jun/2021 15:32:09] "POST //authenticate HTTP/1.0" 404 -
+127.0.0.1 - - [01/Jun/2021 15:32:43] "POST //authenticate HTTP/1.0" 404 -
+127.0.0.1 - - [01/Jun/2021 15:33:10] "POST /api/authenticate HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 15:34:02] "POST /api/authenticate HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 15:34:04] "POST /api/authenticate HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 15:34:38] "GET /api/logics HTTP/1.0" 308 -
+127.0.0.1 - - [01/Jun/2021 15:34:50] "GET /api/logics/ HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 15:36:56] "GET /api/actions HTTP/1.0" 308 -
+127.0.0.1 - - [01/Jun/2021 15:36:59] "GET /api/actions/ HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 16:12:28] "POST /api/authenticate HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 16:12:32] "GET /api/logics HTTP/1.0" 308 -
+127.0.0.1 - - [01/Jun/2021 16:12:41] "GET /api/logics/ HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 16:14:35] "GET /api/indicators HTTP/1.0" 200 -

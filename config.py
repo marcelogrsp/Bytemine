@@ -9,10 +9,10 @@ if os.environ['FLASK_ENV'] == "development":
     PORT = "3306"
     DB = "bytemine"
 else:
-    USERNAME = "marcelo"
-    PASSWORD = "rRNuTiO9K0jxY6vIk858"
-    HOST = "ubunturaspberryquantryx.duckdns.org"
-    PORT = "3360"
+    USERNAME = "bytemine"
+    PASSWORD = "bytemine"
+    HOST = "localhost"
+    PORT = "3306"
     DB = "BYTEMINE"
 
 conn_string = f"mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DB}?charset=utf8mb4"
