@@ -4,11 +4,10 @@ from models import Indicator
 from config import conn_string
 from datetime import timedelta
 from app import app, db
+import wsgiserver
 import services
 import hashlib
 import os
-
-#region Sprint 1
 
 @app.route("/api/authenticate", methods=["POST"])
 def login():
@@ -80,11 +79,6 @@ def metadata():
 
     return res
 
-#endregion Sprint 1
-
-
-#region Sprint 2
-
 @app.route('/api/logics/', methods=['GET'])
 @jwt_required()
 def logics():
@@ -128,13 +122,11 @@ def datas_id(id):
     return jsonify(output), 200
 
 @app.route('/api/search/<keyword>', methods=['GET'])
-# @jwt_required()
+@jwt_required()
 def search(keyword):
     output = services.search(keyword)
 
     return jsonify(values = output), 200
-
-#endregion Sprint 2
 
 @app.errorhandler(404)
 def not_found(error=None):
@@ -151,4 +143,6 @@ if __name__ == "__main__":
     if os.environ['FLASK_ENV'] == "development":
         app.run()
     else:
-        app.run()
+        print("Starting WSGI...")
+        server = wsgiserver.WSGIServer(app, host='0.0.0.0', port=5000)
+        server.start()

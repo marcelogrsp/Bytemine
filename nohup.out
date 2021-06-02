@@ -17,3 +17,16 @@
 127.0.0.1 - - [01/Jun/2021 16:12:32] "GET /api/logics HTTP/1.0" 308 -
 127.0.0.1 - - [01/Jun/2021 16:12:41] "GET /api/logics/ HTTP/1.0" 200 -
 127.0.0.1 - - [01/Jun/2021 16:14:35] "GET /api/indicators HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 16:20:40] "POST /api/authenticate HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 16:21:08] "GET /api/authenticate' HTTP/1.0" 404 -
+127.0.0.1 - - [01/Jun/2021 16:21:47] "POST /api/authenticate HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 16:22:34] "GET /api/indicators HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 16:27:14] "POST /api/authenticate HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 16:28:05] "POST /api/authenticate HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 16:36:44] "GET /api HTTP/1.0" 404 -
+127.0.0.1 - - [01/Jun/2021 16:38:25] "POST /api/authenticate HTTP/1.0" 200 -
+127.0.0.1 - - [01/Jun/2021 16:40:18] "GET /api/indicators HTTP/1.0" 200 -
+  File "controller.py", line 155
+    server = wsgiserver.WSGIServer(app)
+                                      ^
+TabError: inconsistent use of tabs and spaces in indentation
