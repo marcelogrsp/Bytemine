@@ -14,12 +14,53 @@ import os
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+@app.before_request
+def option_autoreply():
+    """ Always reply 200 on OPTIONS request """
+
+    if request.method == 'OPTIONS':
+        resp = app.make_default_options_response()
+
+        headers = None
+        if 'ACCESS_CONTROL_REQUEST_HEADERS' in request.headers:
+            headers = request.headers['ACCESS_CONTROL_REQUEST_HEADERS']
+
+        h = resp.headers
+
+        # Allow the origin which made the XHR
+        h['Access-Control-Allow-Origin'] = request.headers['Origin']
+        # Allow the actual method
+        h['Access-Control-Allow-Methods'] = request.headers[
+            'Access-Control-Request-Method']
+        # Allow for 10 seconds
+        h['Access-Control-Max-Age'] = "10"
+
+        h['Content-Type'] = 'application/json'
+        # print("type of request" + str(type(h['Access-Control-Allow-Origin'])))
+        # We also keep current headers
+        if headers is not None:
+            h['Access-Control-Allow-Headers'] = headers
+
+        return resp
+
+@app.after_request
+def set_allow_origin(resp):
+    """ Set origin for GET, POST, PUT, DELETE requests """
+
+    h = resp.headers
+
+    # Allow crossdomain for other HTTP Verbs
+    if request.method != 'OPTIONS' and 'Origin' in request.headers:
+        h['Access-Control-Allow-Origin'] = request.headers['Origin']
+
+    return resp
+
 @app.route("/api/authenticate", methods=["POST"])
 @cross_origin()
 def login():
-    print(request.remote_addr)
     username = request.json["username"]
-    password_hash = hashlib.pbkdf2_hmac('sha256', request.json["password"].encode('utf-8'), b'bytemine', 100000).hex()
+    password = request.json["password"]
+    password_hash = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), b'bytemine', 100000).hex()
     password_hash_verify = hashlib.pbkdf2_hmac('sha256', "bytemine".encode('utf-8'), b'bytemine', 100000).hex()
 
     if password_hash == password_hash_verify:
@@ -167,5 +208,5 @@ if __name__ == "__main__":
         app.run()
     else:
         print("Starting WSGI...")
-        server = wsgiserver.WSGIServer(app, host="0.0.0.0", port=5000)
+        server = wsgiserver.WSGIServer(app, port=5000)
         server.start()
