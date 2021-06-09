@@ -133,7 +133,7 @@ def get_indicators_metadata(unique_key=None):
             try: source['values'] = source['values'].split(',')
             except: pass
     
-        indicator['inputs'] = {'name': 'input'}
+        indicator['inputs'] = [{'name': 'input'}]
         output.append(indicator)
 
     return output
