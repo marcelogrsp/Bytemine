@@ -188,3 +188,5 @@ class DataParams(db.Model, SerializerMixin):
     min_value = db.Column(db.Float)
     max_value = db.Column(db.Float)
     values = db.Column(db.String(255))
+
+
